@@ -7,6 +7,7 @@
     "navigation",
     "sitemap"
   ],
+  "license": "MIT",
   "homepage": "https://github.com/kokspflanze/ZfcSitemap",
   "autoload": {
     "psr-4": {
