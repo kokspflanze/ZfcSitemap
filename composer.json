@@ -16,9 +16,6 @@
   },
   "require": {
     "php": "^7.1.0",
-    "ext-intl" : "*",
-    "ext-gd" : "*",
-    "ext-curl" : "*",
     "ext-json" : "*",
     "zendframework/zend-servicemanager": "^3.3.0",
     "zendframework/zend-eventmanager": "^3.2.1",
