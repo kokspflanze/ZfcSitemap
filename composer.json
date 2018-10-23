@@ -1,0 +1,36 @@
+{
+  "name": "kokspflanze/zfc-sitemap",
+  "description": "Sitemap module for ZF, based on zend-navigation with eventmanager",
+  "keywords": [
+    "framework",
+    "zf",
+    "navigation",
+    "sitemap"
+  ],
+  "homepage": "https://github.com/kokspflanze/ZfcSitemap",
+  "autoload": {
+    "psr-4": {
+      "ZfcSitemap\\": "src"
+    }
+  },
+  "require": {
+    "php": "^7.1.0",
+    "ext-intl" : "*",
+    "ext-gd" : "*",
+    "ext-curl" : "*",
+    "ext-json" : "*",
+    "zendframework/zend-servicemanager": "^3.3.0",
+    "zendframework/zend-eventmanager": "^3.2.1",
+    "zendframework/zend-view": "^2.9.0",
+    "zendframework/zend-mvc": "^3.1.0",
+    "zendframework/zend-http": "^2.6.0",
+    "zendframework/zend-stdlib": "^3.1.0",
+    "zendframework/zend-router": "^3.0.2",
+    "zendframework/zend-navigation": "^2.8.2"
+  },
+  "extra": {
+    "zf": {
+      "module": "ZfcSitemap"
+    }
+  }
+}
