@@ -3,7 +3,7 @@
 ## SYSTEM REQUIREMENTS
 
 - requires PHP 7.1 or later; we recommend using the latest PHP version whenever possible.
-- use have to use `zend-navigation`
+- have to use `zend-navigation`
 
 ## INSTALLATION
 
@@ -74,7 +74,7 @@ class SitemapCustom extends EventManager\AbstractListenerAggregate
 }
 ````
 
-Than you have to add your listener in the `service_manager` config und in the following configuration.
+Than you have to add your listener in the `service_manager` config and in the following configuration.
 
 ````php
     'zfc-sitemap' => [
