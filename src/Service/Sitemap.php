@@ -5,6 +5,7 @@ namespace ZfcSitemap\Service;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Navigation\AbstractContainer;
+use Zend\View;
 
 class Sitemap implements EventManagerAwareInterface
 {
@@ -13,15 +14,19 @@ class Sitemap implements EventManagerAwareInterface
     /** @var EventManagerInterface */
     protected $events;
 
+    /** @var View\View */
+    protected $view;
+
     /**
      * Sitemap constructor.
-     *
      * @param EventManagerInterface $events
+     * @param View\View $view
      */
-    public function __construct(EventManagerInterface $events)
+    public function __construct(EventManagerInterface $events, View\View $view)
     {
         $this->setEventManager($events);
-    }
+        $this->view = $view;
+   }
 
     /**
      * @param EventManagerInterface $events
@@ -43,6 +48,23 @@ class Sitemap implements EventManagerAwareInterface
     public function getEventManager()
     {
         return $this->events;
+    }
+
+    /**
+     * @param string|null $containerString
+     * @return string
+     */
+    public function getSitemap(?string $containerString = null): string
+    {
+        /** @var View\Helper\Navigation $navigation */
+        $navigation = $this->view->navigation($containerString);
+        $container = $navigation->getContainer();
+
+        $this->sitemapContainer($container);
+
+        return $navigation->sitemap()
+            ->setFormatOutput(true)
+            ->setRenderInvisible(true);
     }
 
     /**

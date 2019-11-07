@@ -4,7 +4,6 @@ namespace ZfcSitemap\View\Helper;
 
 use ZfcSitemap\Service;
 use Zend\View\Helper\AbstractHelper;
-use Zend\View\Helper\Navigation;
 
 class Sitemap extends AbstractHelper
 {
@@ -21,17 +20,11 @@ class Sitemap extends AbstractHelper
     }
 
     /**
-     * @param null $container
-     * @return Navigation
+     * @param null|string $container
+     * @return string
      */
-    public function __invoke($container = null)
+    public function __invoke(?string $container = null): string
     {
-        /** @var Navigation $navigation */
-        $navigation = $this->getView()->navigation($container);
-        $container = $navigation->getContainer();
-
-        $this->sitemapService->sitemapContainer($container);
-
-        return $navigation;
+        return $this->sitemapService->getSitemap($container);
     }
 }
