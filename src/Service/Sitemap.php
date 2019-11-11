@@ -14,19 +14,19 @@ class Sitemap implements EventManagerAwareInterface
     /** @var EventManagerInterface */
     protected $events;
 
-    /** @var View\View */
-    protected $view;
+    /** @var View\Renderer\RendererInterface */
+    protected $renderer;
 
     /**
      * Sitemap constructor.
      * @param EventManagerInterface $events
-     * @param View\View $view
+     * @param View\Renderer\RendererInterface $renderer
      */
-    public function __construct(EventManagerInterface $events, View\View $view)
+    public function __construct(EventManagerInterface $events, View\Renderer\RendererInterface $renderer)
     {
         $this->setEventManager($events);
-        $this->view = $view;
-   }
+        $this->renderer = $renderer;
+    }
 
     /**
      * @param EventManagerInterface $events
@@ -57,7 +57,7 @@ class Sitemap implements EventManagerAwareInterface
     public function getSitemap(?string $containerString = null): string
     {
         /** @var View\Helper\Navigation $navigation */
-        $navigation = $this->view->navigation($containerString);
+        $navigation = $this->renderer->navigation($containerString);
         $container = $navigation->getContainer();
 
         $this->sitemapContainer($container);
