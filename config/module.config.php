@@ -3,6 +3,7 @@
 namespace ZfcSitemap;
 
 use Zend\Router\Http;
+use ZfcSitemap\Controller\GenerateController;
 
 return [
     'router' => [
@@ -19,9 +20,25 @@ return [
             ],
         ],
     ],
+    'console' => [
+        'router' => [
+            'routes' => [
+                'generate-sitemap' => [
+                    'options' => [
+                        'route' => 'generate-sitemap',
+                        'defaults' => [
+                            'controller' => GenerateController::class,
+                            'action' => 'index'
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ],
     'controllers' => [
         'factories' => [
             Controller\IndexController::class => Controller\IndexFactory::class,
+            Controller\GenerateController::class => Controller\GenerateFactory::class,
         ],
     ],
     'service_manager' => [

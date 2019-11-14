@@ -71,7 +71,7 @@ class Sitemap implements EventManagerAwareInterface
      * @param AbstractContainer $container
      * @return \Zend\EventManager\ResponseCollection
      */
-    public function sitemapContainer(AbstractContainer $container)
+    protected function sitemapContainer(AbstractContainer $container)
     {
         return $this->getEventManager()->trigger(self::EVENT_SITEMAP, $this, ['container' => $container]);
     }
