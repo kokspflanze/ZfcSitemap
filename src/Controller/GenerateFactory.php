@@ -16,8 +16,8 @@ class GenerateFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        \Zend\Navigation\Page\Mvc::setDefaultRouter($container->get('router'));
-        return new GenerateController($container->get(Service\Sitemap::class));
+        \Zend\Navigation\Page\Mvc::setDefaultRouter($container->get('HttpRouter'));
+        return new GenerateController($container->get(Service\Sitemap::class), $container->get('HttpRouter'));
     }
 
 }
