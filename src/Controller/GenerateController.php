@@ -4,7 +4,6 @@ namespace ZfcSitemap\Controller;
 
 use Zend\Mvc\Console\Controller\AbstractConsoleController;
 use Zend\Router\RouteStackInterface;
-use Zend\Uri\Http as HttpUri;
 use ZfcSitemap\Service\Sitemap;
 
 class GenerateController extends AbstractConsoleController
@@ -28,18 +27,15 @@ class GenerateController extends AbstractConsoleController
 
     public function indexAction()
     {
-        $requestUri = new HttpUri();
-        $requestUri->setHost('example.com')
-            ->setScheme('https');
-        $this->router->setRequestUri($requestUri);
-        $this->router->setBaseUrl('foobar');
+        $this->router->setBaseUrl('');
 
         $event  = $this->getEvent();
         $event->setRouter($this->router);
         $router = $event->getRouter();
         $router->match(new \Zend\Http\Request());
+        $request = $this->getRequest();
 
-        echo $this->siteMapService->getSitemap('default');
+        $this->siteMapService->generateSitemapCache($request->getParam('url', ''), 'default');
     }
 
 }

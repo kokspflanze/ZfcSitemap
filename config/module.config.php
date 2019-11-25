@@ -25,7 +25,7 @@ return [
             'routes' => [
                 'generate-sitemap' => [
                     'options' => [
-                        'route' => 'generate-sitemap',
+                        'route' => 'generate-sitemap <url>',
                         'defaults' => [
                             'controller' => GenerateController::class,
                             'action' => 'index'
@@ -58,6 +58,7 @@ return [
         'template_path_stack' => [
             __DIR__ . '/../view',
         ],
+        'base_path_console' => '',
     ],
     'zfc-sitemap' => [
         'strategies' => [

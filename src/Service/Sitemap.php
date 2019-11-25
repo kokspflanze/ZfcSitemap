@@ -56,6 +56,46 @@ class Sitemap implements EventManagerAwareInterface
      */
     public function getSitemap(?string $containerString = null): string
     {
+        if (file_exists('./data/zfc-sitemap/sitemap.xml')) {
+            return file_get_contents('./data/zfc-sitemap/sitemap.xml');
+        }
+
+        return $this->getNewSitemap($containerString);
+    }
+
+    /**
+     * @param string $url
+     * @param string|null $containerString
+     */
+    public function generateSitemapCache(string $url, ?string $containerString = null)
+    {
+        $siteMapString = $this->getNewSitemap($containerString);
+
+        $siteMapString = str_replace(
+            '>http://',
+            sprintf(
+                '>%s',
+                rtrim($url, '/')
+            ),
+            $siteMapString
+        );
+
+        if (!is_dir('./data/zfc-sitemap')) {
+            throw new \InvalidArgumentException('"./data/zfc-sitemap" is missing');
+        }
+        $success = file_put_contents('./data/zfc-sitemap/sitemap.xml', $siteMapString);
+
+        if (false === $success) {
+            throw new \InvalidArgumentException('could not wirte sitemap in "./data/zfc-sitemap/sitemap.xml", check user write rights');
+        }
+    }
+
+    /**
+     * @param string|null $containerString
+     * @return string
+     */
+    protected function getNewSitemap(?string $containerString = null): string
+    {
         /** @var View\Helper\Navigation $navigation */
         $navigation = $this->renderer->navigation($containerString);
         $container = $navigation->getContainer();
