@@ -26,6 +26,9 @@
     "zendframework/zend-router": "^3.0.2",
     "zendframework/zend-navigation": "^2.8.2"
   },
+  "require-dev": {
+    "zendframework/zend-mvc-console": "^1.0"
+  },
   "extra": {
     "zf": {
       "module": "ZfcSitemap"

@@ -19,7 +19,7 @@ class SitemapFactory implements FactoryInterface
         /** @var EventManagerInterface $eventManager */
         $eventManager = $container->get('EventManager');
         
-        $sitemap = new Sitemap($eventManager);
+        $sitemap = new Sitemap($eventManager, $container->get('ViewRenderer'));
         foreach ($container->get('config')['zfc-sitemap']['strategies'] as $strategy) {
             $container->get($strategy)->attach($eventManager);
         }

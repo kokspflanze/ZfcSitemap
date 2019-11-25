@@ -25,6 +25,15 @@ Go to `config/application.config.php` and add `ZfcSitemap` in the modules sectio
 
 you can see your current sitemap with `/sitemap.xml`
 
+### Create a sitemap as cache (optional)
+
+This create a sitemap in `data/zfc-sitemap` as cache, this means, if you call `/sitemap.xml` it will not longer create a new sitemap, it will use the cached sitemap.
+
+For this you need to install `zendframework/zend-mvc-console` and this directory `data/zfc-sitemap` with write rights.
+
+Than you can execute  `php public/index.php generate-sitemap http://example.com` to create your sitemap.
+PS: You have to rerun it to create a new sitemap.
+
 ### Change your sitemap
 
 If you have dynamic pages on your page and you want to add them in the sitemap. You can add them with the EventManager.
