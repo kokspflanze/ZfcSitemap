@@ -2,8 +2,8 @@
 
 namespace ZfcSitemap\Controller;
 
-use Zend\Mvc\Console\Controller\AbstractConsoleController;
-use Zend\Router\RouteStackInterface;
+use Laminas\Mvc\Console\Controller\AbstractConsoleController;
+use Laminas\Router\RouteStackInterface;
 use ZfcSitemap\Service\Sitemap;
 
 class GenerateController extends AbstractConsoleController
@@ -32,7 +32,7 @@ class GenerateController extends AbstractConsoleController
         $event  = $this->getEvent();
         $event->setRouter($this->router);
         $router = $event->getRouter();
-        $router->match(new \Zend\Http\Request());
+        $router->match(new \Laminas\Http\Request());
         $request = $this->getRequest();
 
         $this->siteMapService->generateSitemapCache($request->getParam('url', ''), 'default');

@@ -2,7 +2,7 @@
 
 namespace ZfcSitemap;
 
-use Zend\Router\Http;
+use Laminas\Router\Http;
 use ZfcSitemap\Controller\GenerateController;
 
 return [

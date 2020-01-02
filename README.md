@@ -1,9 +1,9 @@
-# ZfcSitemap Module for Zend Framework 3+
+# ZfcSitemap Module for Laminas
 
 ## SYSTEM REQUIREMENTS
 
 - requires PHP 7.1 or later; we recommend using the latest PHP version whenever possible.
-- use have to use `zend-navigation`
+- use have to use `laminas-navigation`
 
 ## INSTALLATION
 
@@ -29,7 +29,7 @@ you can see your current sitemap with `/sitemap.xml`
 
 This create a sitemap in `data/zfc-sitemap` as cache, this means, if you call `/sitemap.xml` it will not longer create a new sitemap, it will use the cached sitemap.
 
-For this you need to install `zendframework/zend-mvc-console` and this directory `data/zfc-sitemap` with write rights.
+For this you need to install `laminas/laminas-mvc-console` and this directory `data/zfc-sitemap` with write rights.
 
 Than you can execute  `php public/index.php generate-sitemap http://example.com` to create your sitemap.
 PS: You have to rerun it to create a new sitemap.
@@ -47,8 +47,8 @@ create a new class
 
 namespace App\Core\Listener;
 
-use Zend\EventManager;
-use Zend\Navigation\AbstractContainer;
+use Laminas\EventManager;
+use Laminas\Navigation\AbstractContainer;
 use ZfcSitemap\Service\Sitemap;
 
 class SitemapCustom extends EventManager\AbstractListenerAggregate

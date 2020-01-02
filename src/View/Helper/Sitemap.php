@@ -3,7 +3,7 @@
 namespace ZfcSitemap\View\Helper;
 
 use ZfcSitemap\Service;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\View\Helper\AbstractHelper;
 
 class Sitemap extends AbstractHelper
 {
