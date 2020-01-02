@@ -1,4 +1,4 @@
-# ZfcSitemap Module for Zend Framework 3+
+# ZfcSitemap Module for Laminas
 
 ## SYSTEM REQUIREMENTS
 
