@@ -2,10 +2,10 @@
 
 namespace ZfcSitemap\Service;
 
-use Zend\EventManager\EventManagerAwareInterface;
-use Zend\EventManager\EventManagerInterface;
-use Zend\Navigation\AbstractContainer;
-use Zend\View;
+use Laminas\EventManager\EventManagerAwareInterface;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\Navigation\AbstractContainer;
+use Laminas\View;
 
 class Sitemap implements EventManagerAwareInterface
 {
@@ -109,7 +109,7 @@ class Sitemap implements EventManagerAwareInterface
 
     /**
      * @param AbstractContainer $container
-     * @return \Zend\EventManager\ResponseCollection
+     * @return \Laminas\EventManager\ResponseCollection
      */
     protected function sitemapContainer(AbstractContainer $container)
     {

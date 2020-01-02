@@ -3,7 +3,7 @@
 namespace ZfcSitemap\Controller;
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use ZfcSitemap\Service;
 
 class GenerateFactory implements FactoryInterface
@@ -16,7 +16,7 @@ class GenerateFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        \Zend\Navigation\Page\Mvc::setDefaultRouter($container->get('HttpRouter'));
+        \Laminas\Navigation\Page\Mvc::setDefaultRouter($container->get('HttpRouter'));
         return new GenerateController($container->get(Service\Sitemap::class), $container->get('HttpRouter'));
     }
 

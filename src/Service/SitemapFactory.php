@@ -3,8 +3,8 @@
 namespace ZfcSitemap\Service;
 
 use Interop\Container\ContainerInterface;
-use Zend\EventManager\EventManagerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class SitemapFactory implements FactoryInterface
 {
