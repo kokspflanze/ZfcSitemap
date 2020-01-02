@@ -1,9 +1,9 @@
-# ZfcSitemap Module for Laminas
+# ZfcSitemap Module for Zend Framework 3+
 
 ## SYSTEM REQUIREMENTS
 
 - requires PHP 7.1 or later; we recommend using the latest PHP version whenever possible.
-- use have to use `laminas-navigation`
+- you have to use `laminas-navigation`
 
 ## INSTALLATION
 
@@ -83,7 +83,7 @@ class SitemapCustom extends EventManager\AbstractListenerAggregate
 }
 ````
 
-Than you have to add your listener in the `service_manager` config und in the following configuration.
+Than you have to add your listener in the `service_manager` config and in the following configuration.
 
 ````php
     'zfc-sitemap' => [
