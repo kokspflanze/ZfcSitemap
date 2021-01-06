@@ -31,8 +31,6 @@ class GenerateController extends AbstractConsoleController
 
         $event  = $this->getEvent();
         $event->setRouter($this->router);
-        $router = $event->getRouter();
-        $router->match(new \Laminas\Http\Request());
         $request = $this->getRequest();
 
         $this->siteMapService->generateSitemapCache($request->getParam('url', ''), 'default');
