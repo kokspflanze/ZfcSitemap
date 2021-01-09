@@ -51,13 +51,16 @@ class Sitemap implements EventManagerAwareInterface
     }
 
     /**
+     * @param string $url
      * @param string|null $containerString
      * @return string
      */
-    public function getSitemap(?string $containerString = null): string
+    public function getSitemap(string $url, ?string $containerString = null): string
     {
-        if (file_exists('./data/zfc-sitemap/sitemap.xml')) {
-            return file_get_contents('./data/zfc-sitemap/sitemap.xml');
+        $fileName = $this->getSitemapFile($url);
+
+        if (file_exists($fileName) === true) {
+            return file_get_contents($fileName);
         }
 
         return $this->getNewSitemap($containerString);
@@ -70,12 +73,13 @@ class Sitemap implements EventManagerAwareInterface
     public function generateSitemapCache(string $url, ?string $containerString = null)
     {
         $siteMapString = $this->getNewSitemap($containerString);
+        $url = rtrim($url, '/');
 
         $siteMapString = str_replace(
             '>http://',
             sprintf(
                 '>%s',
-                rtrim($url, '/')
+                $url
             ),
             $siteMapString
         );
@@ -83,11 +87,24 @@ class Sitemap implements EventManagerAwareInterface
         if (!is_dir('./data/zfc-sitemap')) {
             throw new \InvalidArgumentException('"./data/zfc-sitemap" is missing');
         }
-        $success = file_put_contents('./data/zfc-sitemap/sitemap.xml', $siteMapString);
+        $fileName = $this->getSitemapFile($url);
+        $success = file_put_contents($fileName, $siteMapString);
 
         if (false === $success) {
-            throw new \InvalidArgumentException('could not wirte sitemap in "./data/zfc-sitemap/sitemap.xml", check user write rights');
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'could not write sitemap in "%s", check user write rights',
+                    $fileName
+                )
+            );
         }
+    }
+
+    protected function getSitemapFile(string $url) :string
+    {
+        $url = rtrim($url, '/');
+
+        return sprintf('./data/zfc-sitemap/sitemap-%s.xml', sha1($url));
     }
 
     /**

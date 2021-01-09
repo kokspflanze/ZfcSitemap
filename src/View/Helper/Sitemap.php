@@ -20,11 +20,12 @@ class Sitemap extends AbstractHelper
     }
 
     /**
+     * @param string $url
      * @param null|string $container
      * @return string
      */
-    public function __invoke(?string $container = null): string
+    public function __invoke(string $url, ?string $container = null): string
     {
-        return $this->sitemapService->getSitemap($container);
+        return $this->sitemapService->getSitemap($url, $container);
     }
 }
