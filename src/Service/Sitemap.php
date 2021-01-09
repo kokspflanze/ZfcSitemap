@@ -79,7 +79,7 @@ class Sitemap implements EventManagerAwareInterface
             '>http://',
             sprintf(
                 '>%s',
-                $url
+                str_replace('/sitemap.xml', '', $url)
             ),
             $siteMapString
         );
