@@ -3,6 +3,8 @@
 namespace ZfcSitemap\Service;
 
 use Interop\Container\ContainerInterface;
+use Laminas\Cache\Storage\Adapter\Filesystem;
+use Laminas\Cache\StorageFactory;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
@@ -18,9 +20,33 @@ class SitemapFactory implements FactoryInterface
     {
         /** @var EventManagerInterface $eventManager */
         $eventManager = $container->get('EventManager');
+
+        $config = $container->get('config')['zfc-sitemap'];
+        $cacheConfig = $config['cache'];
+
+        if (empty($cacheConfig)) {
+            $cacheConfig = [
+                'adapter' => Filesystem::class,
+                'options' => [
+                    'cache_dir' => './data/cache',
+                    'ttl' => 86400
+                ],
+                'plugins' => [
+                    'exception_handler' => [
+                        'throw_exceptions' => false
+                    ],
+                    'serializer',
+                ],
+            ];
+        }
         
-        $sitemap = new Sitemap($eventManager, $container->get('ViewRenderer'));
-        foreach ($container->get('config')['zfc-sitemap']['strategies'] as $strategy) {
+        $sitemap = new Sitemap(
+            $eventManager,
+            $container->get('ViewRenderer'),
+            StorageFactory::factory($cacheConfig)
+        );
+
+        foreach ($config['strategies'] as $strategy) {
             $container->get($strategy)->attach($eventManager);
         }
 

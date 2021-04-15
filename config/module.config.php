@@ -64,5 +64,6 @@ return [
         'strategies' => [
 
         ],
+        'cache' => []
     ],
 ];
