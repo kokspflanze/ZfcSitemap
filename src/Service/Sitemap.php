@@ -2,6 +2,7 @@
 
 namespace ZfcSitemap\Service;
 
+use Laminas\Cache\Storage\StorageInterface;
 use Laminas\EventManager\EventManagerAwareInterface;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\Navigation\AbstractContainer;
@@ -17,15 +18,19 @@ class Sitemap implements EventManagerAwareInterface
     /** @var View\Renderer\RendererInterface */
     protected $renderer;
 
+    /** @var StorageInterface */
+    protected $cache;
+
     /**
      * Sitemap constructor.
      * @param EventManagerInterface $events
      * @param View\Renderer\RendererInterface $renderer
      */
-    public function __construct(EventManagerInterface $events, View\Renderer\RendererInterface $renderer)
+    public function __construct(EventManagerInterface $events, View\Renderer\RendererInterface $renderer, StorageInterface $storage)
     {
         $this->setEventManager($events);
         $this->renderer = $renderer;
+        $this->cache = $storage;
     }
 
     /**
@@ -57,10 +62,11 @@ class Sitemap implements EventManagerAwareInterface
      */
     public function getSitemap(string $url, ?string $containerString = null): string
     {
-        $fileName = $this->getSitemapFile($url);
+        $fileName = $this->getSitemapCacheKey($url);
 
-        if (file_exists($fileName) === true) {
-            return file_get_contents($fileName);
+        $sitemap = $this->cache->getItem($fileName);
+        if ($sitemap !== null) {
+            return $sitemap;
         }
 
         return $this->getNewSitemap($containerString);
@@ -84,27 +90,19 @@ class Sitemap implements EventManagerAwareInterface
             $siteMapString
         );
 
-        if (!is_dir('./data/zfc-sitemap')) {
-            throw new \InvalidArgumentException('"./data/zfc-sitemap" is missing');
-        }
-        $fileName = $this->getSitemapFile($url);
-        $success = file_put_contents($fileName, $siteMapString);
+        $fileName = $this->getSitemapCacheKey($url);
+        $success = $this->cache->setItem($fileName, $siteMapString);
 
         if (false === $success) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'could not write sitemap in "%s", check user write rights',
-                    $fileName
-                )
-            );
+            throw new \InvalidArgumentException('could not write sitemap into the cache');
         }
     }
 
-    protected function getSitemapFile(string $url) :string
+    protected function getSitemapCacheKey(string $url) :string
     {
         $url = rtrim($url, '/');
 
-        return sprintf('./data/zfc-sitemap/sitemap-%s.xml', sha1($url));
+        return 'zfc-sitemap-' . sha1($url);
     }
 
     /**

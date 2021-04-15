@@ -2,6 +2,7 @@
 
 namespace ZfcSitemap;
 
+use Laminas\Cache\Storage\Adapter\Filesystem;
 use Laminas\Router\Http;
 use ZfcSitemap\Controller\GenerateController;
 
@@ -64,5 +65,18 @@ return [
         'strategies' => [
 
         ],
+        'cache' => [
+            'adapter' => Filesystem::class,
+            'options' => [
+                'cache_dir' => './data/zfc-sitemap',
+                'ttl' => 86400
+            ],
+            'plugins' => [
+                'exception_handler' => [
+                    'throw_exceptions' => false
+                ],
+                'serializer'
+            ],
+        ]
     ],
 ];

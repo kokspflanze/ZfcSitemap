@@ -3,6 +3,7 @@
 namespace ZfcSitemap\Service;
 
 use Interop\Container\ContainerInterface;
+use Laminas\Cache\StorageFactory;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
@@ -18,9 +19,16 @@ class SitemapFactory implements FactoryInterface
     {
         /** @var EventManagerInterface $eventManager */
         $eventManager = $container->get('EventManager');
+
+        $config = $container->get('config')['zfc-sitemap'];
         
-        $sitemap = new Sitemap($eventManager, $container->get('ViewRenderer'));
-        foreach ($container->get('config')['zfc-sitemap']['strategies'] as $strategy) {
+        $sitemap = new Sitemap(
+            $eventManager,
+            $container->get('ViewRenderer'),
+            StorageFactory::factory($config['cache'])
+        );
+
+        foreach ($config['strategies'] as $strategy) {
             $container->get($strategy)->attach($eventManager);
         }
 
