@@ -16,7 +16,7 @@
     }
   },
   "require": {
-    "php": "^7.1.0",
+    "php": "^7.1.0 || ^8.0",
     "ext-json" : "*",
     "laminas/laminas-cache": "^2.10",
     "laminas/laminas-servicemanager": "^3.5.1",
