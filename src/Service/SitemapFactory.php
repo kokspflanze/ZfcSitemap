@@ -3,6 +3,7 @@
 namespace ZfcSitemap\Service;
 
 use Interop\Container\ContainerInterface;
+use Laminas\Cache\Service\StorageAdapterFactoryInterface;
 use Laminas\Cache\Storage\Adapter\Filesystem;
 use Laminas\Cache\StorageFactory;
 use Laminas\EventManager\EventManagerInterface;
@@ -22,20 +23,27 @@ class SitemapFactory implements FactoryInterface
         $eventManager = $container->get('EventManager');
 
         $config = $container->get('config')['zfc-sitemap'];
-        $cacheConfig = $config['cache'];
+        $cacheOptions = $config['cache'];
+        /** @var StorageAdapterFactoryInterface $storageFactory */
+        $storageFactory = $container->get(StorageAdapterFactoryInterface::class);
 
-        if (empty($cacheConfig)) {
-            $cacheConfig = [
+        if (empty($cacheOptions)) {
+            $cacheOptions = [
                 'adapter' => Filesystem::class,
                 'options' => [
                     'cache_dir' => './data/cache',
                     'ttl' => 86400
                 ],
                 'plugins' => [
-                    'exception_handler' => [
-                        'throw_exceptions' => false
+                    [
+                        'name' => 'exception_handler',
+                        'options' => [
+                            'throw_exceptions' => false
+                        ],
                     ],
-                    'serializer',
+                    [
+                        'name' => 'serializer',
+                    ],
                 ],
             ];
         }
@@ -43,7 +51,11 @@ class SitemapFactory implements FactoryInterface
         $sitemap = new Sitemap(
             $eventManager,
             $container->get('ViewRenderer'),
-            StorageFactory::factory($cacheConfig)
+            $storageFactory->create(
+                $cacheOptions['adapter'],
+                $cacheOptions['options'] ?? [],
+                $cacheOptions['plugins'] ?? []
+            )
         );
 
         foreach ($config['strategies'] as $strategy) {
