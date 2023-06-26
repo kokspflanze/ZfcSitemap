@@ -78,7 +78,7 @@ class Sitemap implements EventManagerAwareInterface
      */
     public function generateSitemapCache(string $url, ?string $containerString = null)
     {
-        $siteMapString = $this->getNewSitemap($containerString);
+        $siteMapString = $this->getNewSitemap($url, $containerString);
         $url = rtrim($url, '/');
 
         $siteMapString = str_replace(
@@ -109,13 +109,13 @@ class Sitemap implements EventManagerAwareInterface
      * @param string|null $containerString
      * @return string
      */
-    protected function getNewSitemap(?string $containerString = null): string
+    protected function getNewSitemap(string $url, ?string $containerString = null): string
     {
         /** @var View\Helper\Navigation $navigation */
         $navigation = $this->renderer->navigation($containerString);
         $container = $navigation->getContainer();
 
-        $this->sitemapContainer($container);
+        $this->sitemapContainer($url, $container);
 
         return $navigation->sitemap()
             ->setFormatOutput(true)
@@ -126,8 +126,15 @@ class Sitemap implements EventManagerAwareInterface
      * @param AbstractContainer $container
      * @return \Laminas\EventManager\ResponseCollection
      */
-    protected function sitemapContainer(AbstractContainer $container)
+    protected function sitemapContainer(string $url, AbstractContainer $container)
     {
-        return $this->getEventManager()->trigger(self::EVENT_SITEMAP, $this, ['container' => $container]);
+        return $this->getEventManager()->trigger(
+            self::EVENT_SITEMAP,
+            $this,
+            [
+                'container' => $container,
+                'url' => $url,
+            ]
+        );
     }
 }
